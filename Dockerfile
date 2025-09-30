@@ -3,10 +3,11 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     git wget build-essential zlib1g-dev libssl-dev libffi-dev \
     libsqlite3-dev libbz2-dev libreadline-dev libncursesw5-dev \
-    liblzma-dev tk-dev ffmpeg libsndfile1-dev libgl1 \
+    liblzma-dev tk-dev ffmpeg libsndfile1-dev libgl1 tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 # Build Python 3.10.9 from source
