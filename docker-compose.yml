@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  wan2gp:
+    build: .
+    container_name: wan2gp
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PYTHONUNBUFFERED=1
+      - HF_HOME=/cache/huggingface
+    volumes:
+      - ./cache/huggingface:/cache/huggingface  # persistent HF cache
+      - ./app:/app                               # optional: local code mount for dev
+    ports:
+      - "7860:7860"  # maps container web UI port to host
+    entrypoint: ["/entrypoint.sh"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
